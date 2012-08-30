@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		5652786615EFFB1900313378 /* OCMock-iOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5652786915EFFB1900313378 /* Build configuration list for PBXAggregateTarget "OCMock-iOS" */;
+			buildPhases = (
+				5652786E15EFFB6000313378 /* ShellScript */,
+				5652786F15EFFBB700313378 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "OCMock-iOS";
+			productName = "OCMock-iOS";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		030EF0B614632FD000B04273 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 030EF0B414632FD000B04273 /* InfoPlist.strings */; };
 		030EF0C214632FD000B04273 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030EF0C114632FD000B04273 /* SenTestingKit.framework */; };
@@ -619,6 +634,7 @@
 				030EF0A714632FD000B04273 /* OCMock */,
 				030EF0BF14632FD000B04273 /* OCMockTests */,
 				030EF0DB14632FF700B04273 /* OCMockLib */,
+				5652786615EFFB1900313378 /* OCMock-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -668,6 +684,32 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Unpack frameworks required for this target\npushd \"${TARGET_BUILD_DIR}\"\nif [ ! -d Frameworks ]; then\nmkdir Frameworks\nfi\ncd Frameworks\nif [ ! -d  OCHamcrest.framework ]; then\ngnutar xjf \"${PROJECT_DIR}/Frameworks/OCHamcrest.tar.bz2\"\nfi\npopd\n";
+		};
+		5652786E15EFFB6000313378 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -target OCMockLib -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -target OCMockLib -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build";
+		};
+		5652786F15EFFBB700313378 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" &&\nDEVICE_HEADERS_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" &&\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\" &&\nUNIVERSAL_LIBRARY_PATH=\"${UNIVERSAL_LIBRARY_DIR}/${PROJECT_NAME}\" &&\nFRAMEWORK_DIR=\"${UNIVERSAL_LIBRARY_DIR}/${PROJECT_NAME}.framework\" &&\n\n# Create framework directory structure.\nrm -rf \"${FRAMEWORK_DIR}\" &&\nmkdir -p \"${UNIVERSAL_LIBRARY_DIR}\" &&\nmkdir -p \"${FRAMEWORK_DIR}/Versions/A/Resources\" &&\n\n# Generate universal binary from desktop, device, and simulator builds.\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\" &&\n\n# Move files to appropriate locations in framework paths.\ncp \"${UNIVERSAL_LIBRARY_PATH}\" \"${FRAMEWORK_DIR}/Versions/A\" &&\nmv \"${DEVICE_HEADERS_PATH}\" \"${FRAMEWORK_DIR}/Versions/A/Headers\" &&\nln -s \"A\" \"${FRAMEWORK_DIR}/Versions/Current\" &&\nln -s \"Versions/Current/Headers\" \"${FRAMEWORK_DIR}/Headers\" &&\nln -s \"Versions/Current/Resources\" \"${FRAMEWORK_DIR}/Resources\" &&\nln -s \"Versions/Current/${PROJECT_NAME}\" \"${FRAMEWORK_DIR}/${PROJECT_NAME}\" &&\ncp \"${SRCROOT}/OCMock/OCMock-Info.plist\" \"${FRAMEWORK_DIR}/Resources/Info.plist\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -948,6 +990,26 @@
 			};
 			name = Release;
 		};
+		5652786715EFFB1900313378 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5652786815EFFB1900313378 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -983,6 +1045,15 @@
 			buildConfigurations = (
 				030EF0E614632FF700B04273 /* Debug */,
 				030EF0E714632FF700B04273 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5652786915EFFB1900313378 /* Build configuration list for PBXAggregateTarget "OCMock-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5652786715EFFB1900313378 /* Debug */,
+				5652786815EFFB1900313378 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
