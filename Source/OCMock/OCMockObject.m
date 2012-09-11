@@ -162,6 +162,23 @@
 	}
 }
 
+- (BOOL)verifiedResult{
+    if([expectations count] == 1)
+	{
+		return NO;
+	}
+	if([expectations count] > 0)
+	{
+		return NO;
+	}
+	if([exceptions count] > 0)
+	{
+		return NO;
+	}
+    
+    return YES;
+}
+
 - (void)stopMocking
 {
     // no-op for mock objects that are not class object or partial mocks

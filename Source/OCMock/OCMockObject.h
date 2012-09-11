@@ -35,6 +35,7 @@
 - (id)reject;
 
 - (void)verify;
+- (BOOL)verifiedResult;
 
 - (void)stopMocking;
 

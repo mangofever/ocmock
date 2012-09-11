@@ -511,6 +511,22 @@ static NSString *TestNotification = @"TestNotification";
 	[mock verify];
 }
 
+- (void)testAcceptsExpectedMethodsAndReturnsVerifiedResultAsTrueWhenSuccessful
+{
+    [[mock expect] lowercaseString];
+    
+    [mock lowercaseString];
+    
+    STAssertTrue([mock verifiedResult], @"Should be verified as true.");
+}
+
+- (void)testAcceptsExpectedMethodsAndReturnsVerifiedResultAsFalseWhenFail
+{
+    [[mock expect] lowercaseString];
+    
+    STAssertFalse([mock verifiedResult], @"Should be verified as false.");
+}
+
 
 - (void)testAcceptsAndVerifiesTwoExpectedInvocationsOfSameMethodAndReturnsCorrespondingValues
 {
